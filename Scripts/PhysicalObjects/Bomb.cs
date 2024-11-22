@@ -21,7 +21,6 @@ public class Bomb : MonoBehaviour
 
     public void Reset()
     {
-        _renderer.material = _graphicUtils.GetMaterialOpaque(_renderer.material);
         _renderer.material = _graphicUtils.GetMaterialWithAlpha(_alphaDefault, _renderer.material);
     }
 
@@ -35,31 +34,16 @@ public class Bomb : MonoBehaviour
         float explosionForce = 1000f;
         float explosionRadius = 6f;
 
-        List<Rigidbody> cubes = GetCubesInRadius(explosionRadius);
+        List<Rigidbody> objectsToExplode = GetObjectsInRadius(explosionRadius);
 
-        foreach (Rigidbody cube in cubes)
-            cube.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+        foreach (Rigidbody objectToExplode in objectsToExplode)
+            objectToExplode.AddExplosionForce(explosionForce, transform.position, explosionRadius);
 
         HasExploded?.Invoke(this);
     }
 
-    private List<Rigidbody> GetCubesInRadius(float radius)
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-        List<Rigidbody> cubes = new List<Rigidbody>();
-
-        foreach (Collider collider in colliders)
-        {
-            if (collider.TryGetComponent(out Cube cube))
-                cubes.Add(collider.attachedRigidbody);
-        }
-
-        return cubes;
-    }
-
     private IEnumerator SmoothlyDecreaseAlphaCoroutine(float targetTime)
     {
-        _renderer.material = _graphicUtils.GetMaterialTransparent(_renderer.material);
         float currentTime = 0f;
 
         while (currentTime < targetTime)
@@ -72,5 +56,19 @@ public class Bomb : MonoBehaviour
 
         _renderer.material = _graphicUtils.GetMaterialWithAlpha(_alphaTransparent, _renderer.material);
         Explode();
+    }
+
+    private List<Rigidbody> GetObjectsInRadius(float radius)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        List<Rigidbody> objectsInRadius = new List<Rigidbody>();
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.TryGetComponent(out Rigidbody rigidbody))
+                objectsInRadius.Add(rigidbody);
+        }
+
+        return objectsInRadius;
     }
 }

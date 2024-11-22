@@ -37,19 +37,13 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
         ActiveQuantity--;
     }
 
-    public T OnCreate()
-    {
-        CreatedQuantity++;
-        return Instantiate(Prefab);
-    }
-
-    public T Spawn()
+    protected T Spawn()
     {
         TotalQuantity++;
         return Pool.Get();
     }
 
-    public void Despawn(T item)
+    protected void Despawn(T item)
     {
         Pool.Release(item);
     }
@@ -57,5 +51,11 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     protected void SetPosition(T item, Vector3 position)
     {
         item.transform.position = position;
+    }
+
+    private T OnCreate()
+    {
+        CreatedQuantity++;
+        return Instantiate(Prefab);
     }
 }

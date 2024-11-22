@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CubeSpawner : Spawner<Cube>
@@ -53,21 +52,6 @@ public class CubeSpawner : Spawner<Cube>
         _bombSpawner.SpawnBomb(position, duration);
     }
 
-    private Vector3 GetRandomSpawnPositionXZ()
-    {
-        float spawnRadius = 5.5f;
-        Vector3 randomPositionXZ = Random.insideUnitSphere * spawnRadius;
-        return new Vector3(randomPositionXZ.x, transform.position.y, randomPositionXZ.z);
-    }
-
-    private float GetRandomLifeTime()
-    {
-        float minLifeTime = 2f;
-        float maxLifeTime = 5f;
-
-        return Random.Range(minLifeTime, maxLifeTime);
-    }
-
     private IEnumerator DelayedDeactivationCoroutine(Cube cube)
     {
         yield return new WaitForSeconds(cube.LifeTime);
@@ -83,5 +67,20 @@ public class CubeSpawner : Spawner<Cube>
             Spawn();
             yield return wait;
         }
+    }
+
+    private Vector3 GetRandomSpawnPositionXZ()
+    {
+        float spawnRadius = 2f;
+        Vector3 randomPositionXZ = Random.insideUnitSphere * spawnRadius;
+        return new Vector3(randomPositionXZ.x, transform.position.y, randomPositionXZ.z);
+    }
+
+    private float GetRandomLifeTime()
+    {
+        float minLifeTime = 2f;
+        float maxLifeTime = 5f;
+
+        return Random.Range(minLifeTime, maxLifeTime);
     }
 }

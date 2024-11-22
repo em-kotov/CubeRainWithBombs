@@ -15,6 +15,13 @@ public class BombSpawner : Spawner<Bomb>
         base.Awake();
     }
 
+    public void SpawnBomb(Vector3 position, float duration)
+    {
+        Bomb bomb = Spawn();
+        SetPosition(bomb, position);
+        bomb.StartDecreaseAlphaCoroutine(duration);
+    }
+
     protected override void OnGet(Bomb bomb)
     {
         base.OnGet(bomb);
@@ -29,12 +36,5 @@ public class BombSpawner : Spawner<Bomb>
         SetPosition(bomb, transform.position);
         bomb.HasExploded -= Despawn;
         bomb.gameObject.SetActive(false);
-    }
-
-    public void SpawnBomb(Vector3 position, float duration)
-    {
-        Bomb bomb = Spawn();
-        SetPosition(bomb, position);
-        bomb.StartDecreaseAlphaCoroutine(duration);
     }
 }

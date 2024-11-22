@@ -14,7 +14,7 @@ public class Cube : MonoBehaviour
 
     public Action<Cube> EnteredPlatform;
 
-    private void Start()
+    private void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _defaultColor = _renderer.material.color;
