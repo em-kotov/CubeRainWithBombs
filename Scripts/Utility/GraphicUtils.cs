@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class GraphicUtils : MonoBehaviour
+public static class GraphicUtils
 {
-    public Material GetMaterialWithAlpha(float alpha, Material material)
+    public static Material SetAlpha(float alpha, Material material)
     {
         Color color = material.color;
         color.a = alpha;
@@ -10,7 +10,7 @@ public class GraphicUtils : MonoBehaviour
         return material;
     }
 
-    public Color GetRandomColor()
+    public static Color GetRandomColor()
     {
         float minHue = 0f;
         float maxHue = 1f;

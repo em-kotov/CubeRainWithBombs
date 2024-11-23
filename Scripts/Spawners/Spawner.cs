@@ -3,15 +3,17 @@ using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
-    protected T Prefab;
+    [SerializeField] private T _prefab;
+    [SerializeField] private int _poolCapacity = 15;
+    [SerializeField] private int _poolMaxSize = 20;
+
     protected ObjectPool<T> Pool;
-    protected int PoolCapacity, PoolMaxSize;
 
-    public int TotalQuantity { get; protected set; }
-    public int CreatedQuantity { get; protected set; }
-    public int ActiveQuantity { get; protected set; }
+    public int TotalQuantity { get; private set; }
+    public int CreatedQuantity { get; private set; }
+    public int ActiveQuantity { get; private set; }
 
-    protected virtual void Awake()
+    private void Awake()
     {
         Pool = new ObjectPool<T>(
             createFunc: () => OnCreate(),
@@ -19,8 +21,8 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
             actionOnRelease: item => OnRelease(item),
             actionOnDestroy: item => Destroy(item),
             collectionCheck: true,
-            defaultCapacity: PoolCapacity,
-            maxSize: PoolMaxSize);
+            defaultCapacity: _poolCapacity,
+            maxSize: _poolMaxSize);
 
         TotalQuantity = 0;
         CreatedQuantity = 0;
@@ -29,7 +31,9 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void OnGet(T item)
     {
+        TotalQuantity++;
         ActiveQuantity++;
+        item.gameObject.SetActive(true);
     }
 
     protected virtual void OnRelease(T item)
@@ -37,18 +41,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
         ActiveQuantity--;
     }
 
-    protected T Spawn()
-    {
-        TotalQuantity++;
-        return Pool.Get();
-    }
-
-    protected void Despawn(T item)
-    {
-        Pool.Release(item);
-    }
-
-    protected void SetPosition(T item, Vector3 position)
+    protected void SetItemPosition(T item, Vector3 position)
     {
         item.transform.position = position;
     }
@@ -56,6 +49,6 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     private T OnCreate()
     {
         CreatedQuantity++;
-        return Instantiate(Prefab);
+        return Instantiate(_prefab);
     }
 }

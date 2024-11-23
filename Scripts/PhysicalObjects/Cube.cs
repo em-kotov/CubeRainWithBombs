@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer), typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private GraphicUtils _graphicUtils;
-
     private Renderer _renderer;
     private Color _defaultColor;
     private bool _hasEnteredPlatform = false;
@@ -25,7 +23,7 @@ public class Cube : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Platform platform)
                 && _hasEnteredPlatform == false)
         {
-            SetColor(_graphicUtils.GetRandomColor());
+            SetColor(GraphicUtils.GetRandomColor());
             _hasEnteredPlatform = true;
             EnteredPlatform?.Invoke(this);
         }

@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer), typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] private GraphicUtils _graphicUtils;
-
     private Renderer _renderer;
     private float _alphaDefault = 1f;
     private float _alphaTransparent = 0f;
@@ -21,12 +19,12 @@ public class Bomb : MonoBehaviour
 
     public void Reset()
     {
-        _renderer.material = _graphicUtils.GetMaterialWithAlpha(_alphaDefault, _renderer.material);
+        _renderer.material = GraphicUtils.SetAlpha(_alphaDefault, _renderer.material);
     }
 
-    public void StartDecreaseAlphaCoroutine(float duration)
+    public void StartDecreaseAlpha(float duration)
     {
-        StartCoroutine(SmoothlyDecreaseAlphaCoroutine(duration));
+        StartCoroutine(SmoothlyDecreaseAlpha(duration));
     }
 
     private void Explode()
@@ -42,25 +40,29 @@ public class Bomb : MonoBehaviour
         HasExploded?.Invoke(this);
     }
 
-    private IEnumerator SmoothlyDecreaseAlphaCoroutine(float targetTime)
+    private IEnumerator SmoothlyDecreaseAlpha(float targetTime)
     {
         float currentTime = 0f;
+        float alpha;
 
         while (currentTime < targetTime)
         {
-            float alpha = Mathf.Lerp(_alphaDefault, _alphaTransparent, currentTime / targetTime);
-            _renderer.material = _graphicUtils.GetMaterialWithAlpha(alpha, _renderer.material);
+            alpha = Mathf.Lerp(_alphaDefault, _alphaTransparent, currentTime / targetTime);
+            _renderer.material = GraphicUtils.SetAlpha(alpha, _renderer.material);
             currentTime += Time.deltaTime;
             yield return null;
         }
 
-        _renderer.material = _graphicUtils.GetMaterialWithAlpha(_alphaTransparent, _renderer.material);
+        _renderer.material = GraphicUtils.SetAlpha(_alphaTransparent, _renderer.material);
         Explode();
     }
 
     private List<Rigidbody> GetObjectsInRadius(float radius)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        int objectsLayerIndex = 6;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius,
+                                        LayerMaskConverter.GetLayerMask(objectsLayerIndex));
         List<Rigidbody> objectsInRadius = new List<Rigidbody>();
 
         foreach (Collider collider in colliders)

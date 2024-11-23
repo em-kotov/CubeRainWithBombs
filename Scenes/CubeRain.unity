@@ -669,8 +669,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ffa85ca037095458bd0fdf90c456fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cubePrefab: {fileID: 1581803316814571163, guid: 2d3d4ccd43273df4eaff9dadcdccdfe4, type: 3}
+  _prefab: {fileID: 1581803316814571163, guid: 2d3d4ccd43273df4eaff9dadcdccdfe4, type: 3}
+  _poolCapacity: 15
+  _poolMaxSize: 20
   _bombSpawner: {fileID: 886222441}
+  _spawnRadius: 2
+  _repeatRate: 2
+  _minLifeTime: 2
+  _maxLifeTime: 5
 --- !u!1 &599964522
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,8 +722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b002ecb0bcc10c46ad47d3c266c7dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawner: {fileID: 526967961}
   _metricsText: {fileID: 1777289610}
+  _spawner: {fileID: 526967961}
 --- !u!114 &599964527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,8 +736,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c72276f3eda5a479a91942c653b8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawner: {fileID: 886222441}
   _metricsText: {fileID: 1951575285}
+  _spawner: {fileID: 886222441}
 --- !u!1 &694373931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1034,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e73efb1f6274fe4aab6b7b095ad45ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bombPrefab: {fileID: 699151638933664628, guid: 7d26dc94997e451489656283c86b0158, type: 3}
+  _prefab: {fileID: 699151638933664628, guid: 7d26dc94997e451489656283c86b0158, type: 3}
+  _poolCapacity: 15
+  _poolMaxSize: 20
 --- !u!1 &1021560860
 GameObject:
   m_ObjectHideFlags: 0
