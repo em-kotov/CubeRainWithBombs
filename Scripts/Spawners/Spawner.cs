@@ -19,7 +19,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
             createFunc: () => OnCreate(),
             actionOnGet: item => OnGet(item),
             actionOnRelease: item => OnRelease(item),
-            actionOnDestroy: item => Destroy(item),
+            actionOnDestroy: item => Destroy(item.gameObject),
             collectionCheck: true,
             defaultCapacity: _poolCapacity,
             maxSize: _poolMaxSize);

@@ -10,7 +10,7 @@ public class Cube : MonoBehaviour
 
     public float LifeTime { get; private set; }
 
-    public Action<Cube> EnteredPlatform;
+    public event Action<Cube> EnteredPlatform;
 
     private void Awake()
     {

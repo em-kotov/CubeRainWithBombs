@@ -10,7 +10,7 @@ public class Bomb : MonoBehaviour
     private float _alphaDefault = 1f;
     private float _alphaTransparent = 0f;
 
-    public Action<Bomb> HasExploded;
+    public event Action<Bomb> HasExploded;
 
     private void Awake()
     {

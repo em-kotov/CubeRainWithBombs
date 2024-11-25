@@ -674,7 +674,7 @@ MonoBehaviour:
   _poolMaxSize: 20
   _bombSpawner: {fileID: 886222441}
   _spawnRadius: 2
-  _repeatRate: 2
+  _repeatRate: 0.8
   _minLifeTime: 2
   _maxLifeTime: 5
 --- !u!1 &599964522
